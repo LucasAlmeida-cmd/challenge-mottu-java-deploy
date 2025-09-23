@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://servidor-sqldb-rm554848.database.windows.net:1433;database=sqldb-teste-banco;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+    #    username: ${DB_USER}
+    #    password: ${DB_PASSWORD}
+    username: adm-sqldb-teste-banco
+    password: FIAP@2tdspy2025
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServerDialect
+        format_sql: true
+...
