@@ -37,16 +37,57 @@ O sistema permite:
 ## Informações
 **1-** 
 No arquivo: *application.properties*, peço que adicione no campos: 
-- *spring.datasource.username=*
-- *spring.datasource.password=*
+- *URL: jdbc:sqlserver://{nome do servidor}.database.windows.net:1433;database={nome da base de dados};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;*
+- *username: Início de sessão de administrador do servidor*
+- *password: FIAP@2tdspy2025*
+- *driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver*
   
-Credenciais do banco Oracle para persistência em banco se não ocorrerá um erro. 
+Credenciais do banco Azure SQL para persistência em banco se não ocorrerá um erro. 
 
 **2-**
 Peço que verifique as informações pois as que eu coloquei a baixo são exemplos e podem não funcionar com os mesmos valores.
 
 **3-**
 Nos pacotes do projeto onde esta o *records_DTOs*, são as classes DTOs, mas eu usei records, foi conversado em sala sobre e o senhor autorizou.
+
+**4-**
+No pom.xml deve ser adicionada a dependência:
+```bash
+  	<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<version>13.2.0.jre11</version>
+			<scope>compile</scope>
+		</dependency>
+```
+
+## Deploy
+
+**1-**
+Começamos fazendo o primeiro build da apicação para seja gerada a pasta target e o arquivo war:
+```bash
+    mvn package -DskipTests
+```
+
+**2-**
+Em seguida vamos até a pasta raiz e clicamos com o botão direito e localizamos a sessão Azure.
+
+**3-**
+Na sessão da Azure entramos em *Deploy to Azure Web Apps*
+
+**4-**
+Em Deploy to Azure acessamos *Web App* clicamos em + e dedicamos um nome para o nosso web app. Em plataform precisamos escolher a opção *Windows-Java 17-Tomcat 10.1*
+
+**5-**
+Clicamos em *apply* e em seguida damos o *run*
+
+**6-**
+Assim que o deploy é finalizado, no canto direito inferior vai aparecer um pop-up e é necessário clicar em *deploy*
+
+**7-**
+Com o deploy finalizado, aparecerá a url que conseguimos usar o web app
+
+
 
 ## 🚀 Começando
 
@@ -68,7 +109,7 @@ https://www.4devs.com.br/gerador_de_cpf
 Para criar ele tem que está no método *POST* e o comando para criar foi: 
 
 ```bash
-  http://localhost:8080/motoqueiro
+  http://[endpoint do web app]/motoqueiro
 ```
 
 E um corpo para persistência de exemplo: 
@@ -90,7 +131,7 @@ E um corpo para persistência de exemplo:
 Lembrando que o método é o *GET*.
 
 ```bash
-  http://localhost:8080/motoqueiro
+  http://[endpoint do web app]/motoqueiro
 ```
 
 E um retorno: 
@@ -125,12 +166,12 @@ Na URL tem dois jeitos de passar o CPF:
 
 1-
 ```bash
-  http://localhost:8080/motoqueiro/818.835.630-11
+  http://[endpoint do web app]/motoqueiro/818.835.630-11
 ```
 
 2-
 ```bash
-  http://localhost:8080/motoqueiro/81883563011
+  http://[endpoint do web app]/motoqueiro/81883563011
 ```
 
 
@@ -152,7 +193,7 @@ No corpo:
 Para fazer o *Delete* o método que ele tem que estar é o *DELETE*,  nele tem que passar pela URL um *CPF* que serve para localizar o motoqueiro que vai ser deletado, exemplo: 
 
 ```bash
-  http://localhost:8080/motoqueiro/818.835.630-11
+  http://[endpoint do web app]/motoqueiro/818.835.630-11
 ```
 
 E nele não vai ter resposta, só se ele não achar o motoqueiro com esse *CPF*.
@@ -167,7 +208,7 @@ E nele não vai ter resposta, só se ele não achar o motoqueiro com esse *CPF*.
 Para criar ele tem que está no método *POST*, da e o comando para criar foi: 
 
 ```bash
-  http://localhost:8080/patio
+  http://[endpoint do web app]/patio
 ```
 
 E um corpo para persistência de exemplo: 
@@ -185,7 +226,7 @@ E um corpo para persistência de exemplo:
 Lembrando que o método é o *GET*.
 
 ```bash
-  http://localhost:8080/patio
+  http://[endpoint do web app]/patio
 ```
 
 E um retorno: 
@@ -216,7 +257,7 @@ modificado e um corpo que vai ser o novo patio, exemplo de chamada:
 
 
 ```bash
-  http://localhost:8080/patio/Patio 1
+  http://[endpoint do web app]/patio/Patio 1
 ```
 
 No corpo: 
@@ -232,7 +273,7 @@ No corpo:
 Para fazer o *Delete* o método que ele tem que estar é o *DELETE*,  nele tem que passar pela URL a identificacao que serve para localizar o patio que vai ser deletado, exemplo: 
 
 ```bash
-  http://localhost:8080/patio/Patio 2
+  http://[endpoint do web app]/patio/Patio 2
 ```
 
 E nele não vai ter resposta, só se ele não achar o patio com essa identificação.
@@ -246,7 +287,7 @@ E nele não vai ter resposta, só se ele não achar o patio com essa identifica�
 Para criar ele tem que está no método *POST*, da e o comando para criar foi: 
 
 ```bash
-  http://localhost:8080/secao
+  http://[endpoint do web app]/secao
 ```
 
 E um corpo para persistência de exemplo: 
@@ -265,7 +306,7 @@ E no corpo precisa passar a identificação de um Patio que ja foi criado.
 Lembrando que o método é o *GET*.
 
 ```bash
-  http://localhost:8080/secao
+  http://[endpoint do web app]/secao
 ```
 
 E um retorno: 
@@ -290,7 +331,7 @@ E um retorno:
 Para fazer o *Delete* o método que ele tem que estar é o *DELETE*,  nele tem que passar pela URL a parte que você quer deletar e em qual pátio você quer deletar, exemplo:  
 
 ```bash
-  http://localhost:8080/secao/Parte 1/Patio 3
+  http://[endpoint do web app]/secao/Parte 1/Patio 3
 ```
 
 E nele não vai ter resposta, só se ele não achar a seção.
@@ -304,7 +345,7 @@ E nele não vai ter resposta, só se ele não achar a seção.
 Para criar ele tem que está no método *POST*, da e o comando para criar foi: 
 
 ```bash
-  http://localhost:8080/vaga
+  http://[endpoint do web app]/vaga
 ```
 
 E um corpo para persistência de exemplo: 
@@ -327,7 +368,7 @@ E no corpo precisa passar a identificação de um Patio que ja foi criado e uma 
 Lembrando que o método é o *GET*.
 
 ```bash
-  http://localhost:8080/vaga
+  http://[endpoint do web app]/vaga
 ```
 
 E um exemplo de retorno: 
@@ -352,7 +393,7 @@ E um exemplo de retorno:
 Para fazer a atualização ele tem que está no método *PUT*, nele tem que passar pela URL o número da vaga, a parte ou seção que você deseja alterar e em qual patio ela esta, exemplo:
 
 ```bash
-  http://localhost:8080/vaga/1/Parte 2/Patio 1
+  http://[endpoint do web app]/vaga/1/Parte 2/Patio 1
 ```
 
 No corpo: 
@@ -371,7 +412,7 @@ No corpo:
 Para criar ele tem que está no método *POST*, da e o comando para criar foi: 
 
 ```bash
-  http://localhost:8080/moto
+  http://[endpoint do web app]/moto
 ```
 
 E um corpo para persistência de exemplo: 
@@ -396,7 +437,7 @@ E no corpo precisa passar um *CPF* existente de um motoquerio, uma vaga, um pati
 Lembrando que o método é o *GET*.
 
 ```bash
-  http://localhost:8080/moto
+  http://[endpoint do web app]/moto
 ```
 
 E um exemplo de retorno: 
